@@ -53,3 +53,58 @@ function generateRandomUser(id) {
   );
   
   export default usersRandom;
+
+// function generateRandomEvent(id) {
+//     const names = [
+//       "Festival de Música",
+//       "Feira de Artesanato",
+//       "Maratona de Programação",
+//       "Workshop de Fotografia",
+//       "Conferência de Tecnologia",
+//       "Exposição de Arte",
+//       "Curso de Yoga",
+//       "Encontro de Escritores",
+//       "Festa de Aniversário",
+//       "Jantar de Gala",
+//     ];
+//     const descriptions = [
+//       "Um festival com as melhores bandas locais.",
+//       "Artesanato local em uma feira especial.",
+//       "Desafie-se em uma maratona de codificação.",
+//       "Aprenda técnicas de fotografia com profissionais.",
+//       "Conferências sobre as últimas tendências em tecnologia.",
+//       "Exposição de arte contemporânea.",
+//       "Aprenda yoga com instrutores experientes.",
+//       "Encontro para escritores compartilharem suas obras.",
+//       "Celebre com amigos em um ambiente festivo.",
+//       "Jantar elegante com pratos gourmet.",
+//     ];
+//     const imageUrls = [
+//       "https://example.com/event1.jpg",
+//       "https://example.com/event2.jpg",
+//       "https://example.com/event3.jpg",
+//       "https://example.com/event4.jpg",
+//       "https://example.com/event5.jpg",
+//       "https://example.com/event6.jpg",
+//       "https://example.com/event7.jpg",
+//       "https://example.com/event8.jpg",
+//       "https://example.com/event9.jpg",
+//       "https://example.com/event10.jpg",
+//     ];
+  
+//     const randomIndex = Math.floor(Math.random() * names.length);
+  
+//     return {
+//       id,
+//       name: names[randomIndex],
+//       description: descriptions[randomIndex],
+//       imageUrl: imageUrls[randomIndex],
+//     };
+//   }
+  
+//   const numberOfEvents = 10;
+//   const eventsRandom = Array.from({ length: numberOfEvents }, (_, i) =>
+//     generateRandomEvent(i + 1)
+//   );
+  
+//   export default eventsRandom;

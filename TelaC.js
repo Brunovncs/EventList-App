@@ -7,7 +7,7 @@ export default (props) => {
       <Text>Aqui é a Tela C!</Text>
       <Button
         title="Ir para Tela A"
-        onPress={() => props.navigation.navigate("TelaA")}
+        onPress={() => props.navigation.navigate("Eventos")}
       />
     </View>
   );
