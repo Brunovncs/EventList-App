@@ -1,7 +1,5 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import events from "./Events/events";
-import EditarEvento from "./Events/EditarEvento";
-import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EventsContext = createContext({});
@@ -9,15 +7,25 @@ const initialState = { events };
 
 const actions = {
   // Adicione esta ação ao seu objeto de ações
+  updateEventIsChecked(state, action) {
+    const { id, isChecked } = action.payload;
+    const updatedEvents = state.events.map((e) => {
+      if (e.id === id) {
+        return {...e, isChecked };
+      }
+      return e;
+    });
+    saveEvents(updatedEvents);
+    return {
+     ...state,
+      events: updatedEvents,
+    };
+  },
   markEventAsChecked(state, action) {
-    //console.log("Payload antes de chamar markEventAsChecked:", action.payload); // Adicione esta linha
-
     const { event, nome, quantidade } = action.payload;
     
     const updatedEvents = state.events.map((e) => {
-      // if (event && event.id) {
         if (e.id === event.id) {
-          // console.log("Esse é o event:", event)
           // Verifica se há ingressos disponíveis para reserva
           if (e.ingDisp >= quantidade) {
             return {
@@ -31,10 +39,6 @@ const actions = {
             return e;
           }
         }
-      // } else {
-      //   console.error("Event ou event.id é undefined");
-      //   console.log("Nomes: ", nome)
-      // }
       return e;
     });
     saveEvents(updatedEvents);
@@ -102,6 +106,51 @@ const actions = {
     return {
       ...state,
       events: updatedEvents,
+    };
+  },
+  updateEventIsFav(state, action) {
+    const { id, isFav } = action.payload;
+  
+    // Atualize o evento com o novo estado de favorito
+    const updatedEvents = state.events.map((e) => {
+      if (e.id === id) {
+        return { ...e, isFav };
+      }
+      return e;
+    });
+  
+    // Reordene os eventos com base no favoritismo, colocando os eventos favoritos no topo da lista
+    const sortedEvents = updatedEvents.sort((a, b) => {
+      if (a.isFav && !b.isFav) {
+        return -1; // Coloca 'a' (evento favorito) antes de 'b' (evento não favorito)
+      } else if (!a.isFav && b.isFav) {
+        return 1; // Coloca 'b' (evento favorito) antes de 'a' (evento não favorito)
+      } else {
+        return 0; // Mantém a ordem original
+      }
+    });
+  
+    // Salve os eventos atualizados no AsyncStorage
+    saveEvents(sortedEvents);
+  
+    // Retorne o novo estado com os eventos reordenados
+    return {
+      ...state,
+      events: sortedEvents,
+    };
+  },
+  filterEventsByName(state, action) {
+    const { name } = action.payload;
+    const filteredEvents = state.events.filter(event => event.name.toLowerCase().includes(name.toLowerCase()));
+    return {
+     ...state,
+      events: filteredEvents,
+    };
+  },
+  clearFilter(state, action) {
+    return {
+      ...state,
+      events: initialState.events, // Carrega todos os eventos novamente
     };
   },
 };

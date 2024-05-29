@@ -5,19 +5,14 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Button, Icon } from "@rneui/themed";
 import { Alert } from "react-native";
 
-import 'react-native-gesture-handler';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from "@react-navigation/native";
+import "react-native-gesture-handler";
 
-import EventListEdit from "./Events/EventListEdit";
 import ConfigEvents from "./Events/ConfigEvents";
-import EventList from "./Events/EventList";
 import EventForm from "./Events/EventForm";
-import EditarEvento from "./Events/EditarEvento";
+import EditEvent from "./Events/EditEvent";
 import ScheduleEvent from "./Events/ScheduleEvent";
-
-import { TabView, TabBar } from "react-native-tab-view";
-
+import EventFilter from "./Events/EventFilter";
+import ExpandInfo from "./ExpandInfo";
 import { useNavigation } from "@react-navigation/native";
 import TabViewExample from "./TabView";
 
@@ -25,11 +20,31 @@ const Drawer = createDrawerNavigator();
 
 export default (props) => (
   <EventsProvider>
-    <Drawer.Navigator initialRouteName="Eventos" screenOptions={screenOptions}>
-    <Drawer.Screen // Aba de eventos
+    <Drawer.Navigator
+      initialRouteName="Eventos"
+      screenOptions={screenOptions}
+    >
+      <Drawer.Screen // Aba de eventos
         name="Eventos"
         component={TabViewExample}
-    />
+        options={({ navigation }) => {
+          const { dispatch } = useContext(EventsContext);
+          return {
+            title: "Eventos",
+            headerRight: () => (
+              <View style={styles.buttonContainer}>
+                <Button
+                  onPress={() => navigation.navigate("EventFilter")}
+                  type="clear"
+                  icon={
+                    <Icon name="bookmark-outline" size={25} color="white" />
+                  }
+                />
+              </View>
+            ),
+          };
+        }}
+      />
       <Drawer.Screen // Aba de configurações
         name="Configurações"
         component={ConfigEvents}
@@ -82,7 +97,7 @@ export default (props) => (
             const navigation = useNavigation(); // Use useNavigation hook here
             return (
               <Button
-                onPress={() => navigation.navigate("Eventos")}
+                onPress={() => navigation.navigate("Configurações")}
                 type="clear"
                 icon={<Icon name="arrow-left" size={25} color="white" />}
               />
@@ -91,8 +106,8 @@ export default (props) => (
         }}
       />
       <Drawer.Screen
-        name="EditarEvento"
-        component={EditarEvento}
+        name="EditEvent"
+        component={EditEvent}
         options={({ navigation }) => {
           const { dispatch } = useContext(EventsContext);
           return {
@@ -111,7 +126,7 @@ export default (props) => (
           };
         }}
       />
-        <Drawer.Screen
+      <Drawer.Screen
         name="ScheduleEvent"
         component={ScheduleEvent}
         options={({ navigation }) => {
@@ -130,6 +145,45 @@ export default (props) => (
               );
             },
           };
+        }}
+      />
+      <Drawer.Screen
+        name="ExpandInfo"
+        component={ExpandInfo}
+        options={({ navigation }) => {
+          const { dispatch } = useContext(EventsContext);
+          return {
+            title: "Informações do evento",
+            drawerItemStyle: { display: "none" },
+            headerLeft: () => {
+              const navigation = useNavigation(); // Use useNavigation hook here
+              return (
+                <Button
+                  onPress={() => navigation.navigate("Eventos")}
+                  type="clear"
+                  icon={<Icon name="arrow-left" size={25} color="white" />}
+                />
+              );
+            },
+          };
+        }}
+      />
+      <Drawer.Screen
+        name="EventFilter"
+        component={EventFilter}
+        options={{
+          title: "Filtrar evento por nome",
+          drawerItemStyle: { display: "none" },
+          headerLeft: () => {
+            const navigation = useNavigation(); // Use useNavigation hook here
+            return (
+              <Button
+                onPress={() => navigation.navigate("Eventos")}
+                type="clear"
+                icon={<Icon name="arrow-left" size={25} color="white" />}
+              />
+            );
+          },
         }}
       />
       {/* Outras telas Drawer aqui */}

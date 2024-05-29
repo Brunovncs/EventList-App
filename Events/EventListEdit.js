@@ -40,7 +40,7 @@ export default () => { // Arquivo responsável por editar eventos específicos
     return (
       <>
         <Button
-          onPress={() => navigation.navigate("EditarEvento", { event })}
+          onPress={() => navigation.navigate("EditEvent", { event })}
           type="clear"
           icon={<Icon name="edit" size={25} color="black" />}
         />
@@ -55,9 +55,8 @@ export default () => { // Arquivo responsável por editar eventos específicos
 
   function getEventItems({ item: event }) {
     return (
-      // <ListItem onPress={()=>props.navigation.navigate('EventForm', event)} bottomDivider>
       <ListItem bottomDivider containerStyle={styles.item}>
-        <Avatar rounded source={{ uri: event.avatarUrl }} size={70}/>
+        <Avatar source={{ uri: event.avatarUrl }} size={100}/>
         <ListItem.Content>
           <ListItem.Title>{event.name}</ListItem.Title>
           <ListItem.Subtitle>{"Data: " + event.data}</ListItem.Subtitle>
