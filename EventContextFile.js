@@ -175,6 +175,7 @@ async function deleteEvents(events) {
 async function loadEvents() {
   try {
     const events = await AsyncStorage.getItem("events");
+    console.log("events: ", events);
     return { events: events ? JSON.parse(events) : [] };
   } catch (error) {
     console.error("Erro ao carregar os usuarios do AsyncStorage", error);
@@ -193,7 +194,7 @@ export const EventsProvider = (props) => {
   useEffect(() => {
     async function fetchData() {
       const loadedEvents = await loadEvents();
-      dispatch({ type: "carregarEventos", payload: loadedEvents });
+      dispatch({ type: "carregarEvents", payload: loadedEvents });
     }
     fetchData();
   }, []);

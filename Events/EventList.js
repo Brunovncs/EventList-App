@@ -6,8 +6,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 
 export default (props) => {
-  const navigation = useNavigation();
   const { state, dispatch } = useContext(EventsContext);
+  const navigation = useNavigation();
+
+  console.log(state.events.length);
 
   const handleReservation = (event, nome, quantidade) => {
     navigation.navigate("ScheduleEvent", { event, nome, quantidade }); // Navega para a tela de agendamento de evento
